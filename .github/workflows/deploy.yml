@@ -24,13 +24,13 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 'lts/*'
+          node-version: "lts/*"
 
       - name: Install dependencies
         run: npm install
 
       - name: Build
-        run: npm run build -- --base /ktor-htmx-kug/
+        run: npm run build -- --base /ktor-htmx-cern/
 
       - uses: actions/configure-pages@v4
 
