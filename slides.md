@@ -8,7 +8,7 @@ drawings:
 transition: slide-left
 title: "Ktor and htmx: Tha match made on heaven"
 layout: intro
-colorSchema: 'dark'
+colorSchema: "dark"
 width: 800
 ---
 
@@ -42,11 +42,11 @@ layout: two-cols-header
 
 ::left::
 
-* Vendor of Liberica JDK
-* Contributor to the OpenJDK
-* Author of ARM32 support in JDK
-* Own base images
-* Own Linux: Alpaquita
+- Vendor of Liberica JDK
+- Contributor to the OpenJDK
+- Author of ARM32 support in JDK
+- Own base images
+- Own Linux: Alpaquita
 
 <!-- Liberica is the JDK officially recommended by <logos-spring-icon /> -->
 
@@ -55,6 +55,79 @@ layout: two-cols-header
 ::right::
 
 <img src="/news.png" class="invert rounded self-center"/>
+
+---
+
+# How the usual _should_ enterprise work?
+
+- Teams (2-pizza or so)
+- Battle-tested tools
+- Sensible timeframe
+- Realistic goals
+- Enough resources
+- Validated hypotheses
+
+---
+
+# What _should_ a usual developer be
+
+- Loves battle-tested technologies
+- Works fast
+- Estimates perfectly
+- Understands business goals
+
+---
+
+# What reality is?
+
+- Time frames are unreasonable
+- There are never enough resources
+- Complex technologies usually are complicated
+- And developers get bored of them
+
+---
+
+# How does the nightmare look?
+
+<v-clicks>
+
+- Hey, we need to write this project
+- ASAP
+- We do not know what are the needs
+- You should do it alone
+
+</v-clicks>
+
+---
+layout: statement
+---
+
+# *We* have problems.
+# <v-click> (as industry)</v-click> 
+# I have solutions.
+
+---
+layout: image-right
+image: /pottery.png
+---
+
+# But I'm not the one who will solve
+
+Software craftsmanship:
+
+- Write Clean, Readable, Maintainable Code
+- Continuously learn
+- Test your work
+- Collaborate and share
+- Pursue technical excellence
+
+---
+
+# And every craftsman needs tools
+
+- Ktor
+- kotlinx.html
+- htmx
 
 ---
 
@@ -111,6 +184,7 @@ fun main() {
 # Plugin: Content Negotiation
 
 And then
+
 ```kotlin {1|2-3|4}
 get("/customer/{id}") {
     val id = call.parameters["id"]
@@ -143,15 +217,15 @@ fun Application.module() {
 
 <v-click>
 
-And then 
+And then
+
 ```html
 <head>
-    <link rel="stylesheet" href="/assets/bootstrap/bootstrap.css">
+  <link rel="stylesheet" href="/assets/bootstrap/bootstrap.css" />
 </head>
 ```
-  
-</v-click>
 
+</v-click>
 
 ---
 
@@ -194,8 +268,8 @@ Since I'm spoiled wit Spring, I can't live without DI
 
 ```kotlin {all|2-4}
 embeddedServer(Netty, port = 8080) {
-  di { 
-    bind<Random> { singleton { SecureRandom() } } 
+  di {
+    bind<Random> { singleton { SecureRandom() } }
   }
 }.start(true)
 ```
@@ -206,13 +280,12 @@ And then
 
 ```kotlin {all|1|2-3}
 routing {
-  controller { MyFirstDIController(instance()) } 
-  controller("/protected") { MySecondDIController(instance()) } 
+  controller { MyFirstDIController(instance()) }
+  controller("/protected") { MySecondDIController(instance()) }
 }
 ```
-  
-</v-click>
 
+</v-click>
 
 ---
 
@@ -257,8 +330,6 @@ https://jooq.org
 
 > jOOQ generates Java code from your database and lets you build type safe SQL queries through its fluent API.
 
-
-
 <div class="grid grid-cols-2 grid-rows-1 gap-4 w-full">
   <div class="box">
   
@@ -290,18 +361,14 @@ https://htmx.org
 > high power tools for HTML
 
 ```html {1|2-4|all}
-  <script src="https://unpkg.com/htmx.org@1.9.10"></script>
-  <!-- have a button POST a click via AJAX -->
-  <button hx-post="/clicked" hx-swap="outerHTML">
-    Click Me
-  </button>
+<script src="https://unpkg.com/htmx.org@1.9.10"></script>
+<!-- have a button POST a click via AJAX -->
+<button hx-post="/clicked" hx-swap="outerHTML">Click Me</button>
 ```
-
 
 ---
 
 # <Htmx />
-
 
 When the response comes - it replaces the `button` altogether.
 
@@ -317,9 +384,10 @@ Example response:
 <v-click>
 
 Result:
+
 ```html
-  <script src="https://unpkg.com/htmx.org@1.9.10"></script>
-  <span>OK</span>
+<script src="https://unpkg.com/htmx.org@1.9.10"></script>
+<span>OK</span>
 ```
 
 </v-click>
@@ -331,12 +399,8 @@ Result:
 What if I need to update another place on the page?
 
 ```html {all|4-6|4}
-<div>
- ...
-</div>
-<div id="breadcrumbs" hx-swap-oob="outerHTML:.breadcrumb">
-    My &gt; Page
-</div>
+<div>...</div>
+<div id="breadcrumbs" hx-swap-oob="outerHTML:.breadcrumb">My &gt; Page</div>
 ```
 
 <v-click>
@@ -354,7 +418,6 @@ layout: statement
 ---
 
 # `kotlinx.html`
-
 
 ```kotlin {all|1|2|3|4,5|6-13}
 fun Application.module() {
@@ -394,7 +457,7 @@ layout: statement
 - <Htmx /> is easy to use with `kotlinx.html`
 - For a pet project you don't need to know JS/TS
 - And even Kotlin/JS
-- And *maybe* for production too
+- And _maybe_ for production too
 
 </v-clicks>
 
@@ -418,3 +481,4 @@ Find me @
 ---
 layout: end
 ---
+
