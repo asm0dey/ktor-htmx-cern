@@ -162,7 +162,8 @@ fun main() {
 
 # Plugins: Content Negotiation
 
-- Content negotiation
+- Negotiating media types between the client and server
+- Serializing/deserializing the content
 
 ```kotlin {all|2|3|4|5-6}
 fun main() {
@@ -193,7 +194,7 @@ get("/customer/{id}") {
 }
 ```
 
-Ktor uses the `Accept` header to choose the required serializer
+We known the `Accept` header -> we know how to serialize `Customer`
 
 ---
 
@@ -262,98 +263,6 @@ fun Application.monitoring() {
 
 ---
 
-# DI
-
-Since I'm spoiled wit Spring, I can't live without DI
-
-```kotlin {all|2-4}
-embeddedServer(Netty, port = 8080) {
-  di {
-    bind<Random> { singleton { SecureRandom() } }
-  }
-}.start(true)
-```
-
-<v-click>
-
-And then
-
-```kotlin {all|1|2-3}
-routing {
-  controller { MyFirstDIController(instance()) }
-  controller("/protected") { MySecondDIController(instance()) }
-}
-```
-
-</v-click>
-
----
-
-# Our example: library
-
-- I have a library in "obscure russian"© fb2 format
-- I need a web interface for it
-- And OPDS interface for it
-
-<v-click>
-
-> The Open Publication Distribution System (OPDS) Catalog format is a syndication format for electronic publications based on Atom and HTTP. OPDS Catalogs enable the aggregation, distribution, discovery, and acquisition of electronic publications.
-
-> OPDS Catalogs use existing or emergent open standards and conventions, with a priority on simplicity.
-
-https://specs.opds.io/opds-1.2
-
-</v-click>
-
----
-layout: statement
----
-
-# Pasha, show the demo!
-
----
-
-# Domain
-
-```mermaid
-erDiagram
-    BOOK }|--|{ AUTHOR : authors
-    BOOK }|--o| SEQUENCE : sequences
-    BOOK }|--|{ GENRE : genres
-```
-
----
-
-# BTW I use jOOQ
-
-https://jooq.org
-
-> jOOQ generates Java code from your database and lets you build type safe SQL queries through its fluent API.
-
-<div class="grid grid-cols-2 grid-rows-1 gap-4 w-full">
-  <div class="box">
-  
-```sql {1|2|3|all}
-SELECT AUTHOR_ID, COUNT(*)
-FROM BOOK
-GROUP BY AUTHOR_ID
-```
-  
-  </div>
-  <div class="box">
-  
-```kotlin {1|2|3-4|all}{at:1}
-create.select(BOOK.AUTHOR_ID, count())
-      .from(BOOK)
-      .groupBy(BOOK.AUTHOR_ID)
-      .fetch();
-```
-  
-  </div>
-</div>
-
----
-
 # <Htmx />
 
 https://htmx.org
@@ -410,12 +319,6 @@ Will replace not only the requested content, but also breadcrumbs with `My > Pag
 </v-click>
 
 ---
-layout: statement
----
-
-# Where am I going with this?
-
----
 
 # `kotlinx.html`
 
@@ -424,15 +327,15 @@ fun Application.module() {
     routing {
         get("/") {
             val name = "Ktor"
-            call.respondHtml(HttpStatusCode.OK) {
+            call.respondHtml {
                 head {
                     title {
-                        +name
+                        text(name) // could also write `+name`
                     }
                 }
                 body {
                     h1 {
-                        +"Hello from $name!"
+                        text("Hello from $name!")
                     }
                 }
             }
@@ -440,12 +343,102 @@ fun Application.module() {
     }
 }
 ```
+<v-click>
+
+## Show us a demo!!
+
+</v-click>
+---
+
+# DI
+
+Since I'm spoiled with Spring, I can't live without DI
+
+```kotlin {all|2-4}
+embeddedServer(Netty, port = 8080) {
+  di {
+    bind<Random> { singleton { SecureRandom() } }
+  }
+}.start(true)
+```
+
+<v-click>
+
+And then
+
+```kotlin {all|1|2-3}
+routing {
+  controller { MyFirstDIController(instance()) }
+  controller("/protected") { MySecondDIController(instance()) }
+}
+```
+
+</v-click>
+
+---
+
+# Our example: library
+
+- I have a library in obscure fb2 format
+- I need a web interface for it
+- And OPDS interface for it
+
+<v-click>
+
+> The Open Publication Distribution System (OPDS) Catalog format is a syndication format for electronic publications based on Atom and HTTP. OPDS Catalogs enable the aggregation, distribution, discovery, and acquisition of electronic publications.
+
+> OPDS Catalogs use existing or emergent open standards and conventions, with a priority on simplicity.
+
+https://specs.opds.io/opds-1.2
+
+</v-click>
+
+---
+
+# Domain
+
+```mermaid
+erDiagram
+    BOOK }|--|{ AUTHOR : authors
+    BOOK }|--o| SEQUENCE : sequences
+    BOOK }|--|{ GENRE : genres
+```
+
+---
+
+# BTW I use jOOQ
+
+https://jooq.org
+
+> jOOQ generates Java code from your database and lets you build type safe SQL queries through its fluent API.
+
+<div class="grid grid-cols-2 grid-rows-1 gap-4 w-full">
+  <div class="box">
+  
+```sql {1|2|3|all}
+SELECT AUTHOR_ID, COUNT(*)
+FROM BOOK
+GROUP BY AUTHOR_ID
+```
+  
+  </div>
+  <div class="box">
+  
+```kotlin {1|2|3-4|all}{at:1}
+create.select(BOOK.AUTHOR_ID, count())
+      .from(BOOK)
+      .groupBy(BOOK.AUTHOR_ID)
+      .fetch();
+```
+  
+  </div>
+</div>
 
 ---
 layout: statement
 ---
 
-# Demo time!
+# Pasha, show the demo!
 
 ---
 
@@ -455,9 +448,8 @@ layout: statement
 
 - Ktor and <Htmx /> are the powerful mix
 - <Htmx /> is easy to use with `kotlinx.html`
-- For a pet project you don't need to know JS/TS
-- And even Kotlin/JS
-- And _maybe_ for production too
+- You are not obligated to know/use JS!
+- But maybe sometimes hyperscript
 
 </v-clicks>
 
@@ -469,6 +461,7 @@ layout: center
 
 Find me @
 
+- <logos-bluesky /> @asm0dey.site
 - <logos-twitter /> asm0di0
 - <logos-mastodon-icon /> @asm0dey@fosstodon.org
 - <logos-google-gmail /> me@asm0dey.site
